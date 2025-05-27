@@ -19,7 +19,8 @@ if __name__ == "__main__":
     texts = load_openwebtext(size="1000")
     print("size: ", len(texts))
     print("Saving OpenWebText to ./data/openwebtext-l1000")
-    with open("./data/openwebtext-l1000", "w", encoding="utf-8") as f:
+    # create file and
+    with open("./data/openwebtext-l1000", "w+", encoding="utf-8") as f:
         for text in texts:
             f.write(text + " ")
 
