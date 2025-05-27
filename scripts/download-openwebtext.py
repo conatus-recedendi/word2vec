@@ -2,6 +2,7 @@
 
 from datasets import load_dataset
 import re
+import argparse
 
 
 def load_openwebtext(size="65000000"):
@@ -30,15 +31,23 @@ def preprocess(words):
 
 
 if __name__ == "__main__":
-    # main(size="65000000")
-    print("Loading OpenWebText... (1000)")
-    texts = load_openwebtext(size="1000")
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--size",
+        type=str,
+        default="1000",
+        help="Number of samples to load from OpenWebText",
+    )
+    args = parser.parse_args()
+    size = args.size
+    print(f"Loading OpenWebText... ({size})")
+    texts = load_openwebtext(size)
     words = tokenize(texts)
     words = preprocess(words)
     print("size: ", len(texts))
-    print("Saving OpenWebText to ../data/openwebtext-l1000")
+    print(f"Saving OpenWebText to ../data/openwebtext-l{size}")
     # create file and
-    with open("../data/openwebtext-l1000", "w+", encoding="utf-8") as f:
+    with open(f"../data/openwebtext-l{size}", "w+", encoding="utf-8") as f:
         for text in words:
             f.write(text + " ")
 
