@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from datasets import load_dataset
+import re
 
 
 def load_openwebtext(size="65000000"):
@@ -13,15 +14,32 @@ def load_openwebtext(size="65000000"):
     return texts
 
 
+def tokenize(texts):
+    words = []
+    for line in texts:
+        line = line.strip().replace("\n", " ")  # + " <eos>"
+        words.extend(line.split())
+    return words
+
+
+def preprocess(words):
+    # 알파벳, 숫자, 또는 알파벳+숫자로 이루어진 단어만 남김 (예: "conversation00" 포함)
+    words = [w for w in words if re.fullmatch(r"[a-zA-Z0-9]+", w)]
+    words = [w.lower() for w in words]
+    return words
+
+
 if __name__ == "__main__":
     # main(size="65000000")
     print("Loading OpenWebText... (1000)")
     texts = load_openwebtext(size="1000")
+    words = tokenize(texts)
+    words = preprocess(words)
     print("size: ", len(texts))
     print("Saving OpenWebText to ../data/openwebtext-l1000")
     # create file and
     with open("../data/openwebtext-l1000", "w+", encoding="utf-8") as f:
-        for text in texts:
+        for text in words:
             f.write(text + " ")
 
     # analysis(size="1000")
