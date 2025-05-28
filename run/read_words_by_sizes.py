@@ -8,6 +8,7 @@ data_dir = "../data"
 def read_words_by_sizes(input_path, sizes):
 
     sizes = sorted(sizes)
+    sizes = [int(size) for size in sizes]  # Ensure sizes are integers
 
     size_idx = 0
     current_size = sizes[size_idx]
@@ -62,7 +63,6 @@ if __name__ == "__main__":
         type=int,
         nargs="+",
         default=[
-            24 * 1e6,
             24 * 1e6,
             49 * 1e6,
             98 * 1e6,
