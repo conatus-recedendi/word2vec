@@ -1,6 +1,6 @@
 #!/bin/bash
 
 SIZE=1000000
-python ../run/dataset.py --function load_openwebtext --size $SIZE
+python ../run/load_openwebtext.py --size $SIZE
 
-python ../run/dataset.py  --function preprocess --size  $SIZE
+python ../run/preprocess.py --size  $SIZE
