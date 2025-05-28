@@ -1,10 +1,11 @@
 import argparse
 
+import os
+
 data_dir = "../data"
 
 
 def read_words_by_sizes(input_path, sizes):
-    import os
 
     sizes = sorted(sizes)
 
