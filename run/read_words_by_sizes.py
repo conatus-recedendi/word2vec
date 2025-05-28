@@ -54,7 +54,7 @@ if __name__ == "__main__":
     args.add_argument(
         "--input_path",
         type=str,
-        default="openwebtext-2000000000-preprocessed",
+        default="openwebtext-2000000-preprocessed",
         help="Path to the input file containing preprocessed words",
     )
     args.add_argument(
