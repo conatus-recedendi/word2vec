@@ -33,5 +33,5 @@ if __name__ == "__main__":
         help="Number of samples to load from OpenWebText",
     )
     size = parser.parse_args().size
-    load_openwebtext(size="1000")  # Change size as needed
+    load_openwebtext(size)  # Change size as needed
     # preprocess()  # Uncomment if you want to run the preprocessing step
