@@ -7,38 +7,40 @@ data_dir = "../data"
 
 
 def preprocess(size="1000"):
-
-    words = []
     word_buf = []
+    idx = 0
 
-    with open(f"{data_dir}/openwebtext-{size}", "r", encoding="utf-8") as f:
+    with open(f"{data_dir}/openwebtext-{size}", "r", encoding="utf-8") as fin, open(
+        f"{data_dir}/openwebtext-{size}-preprocessed", "w", encoding="utf-8"
+    ) as fout:
+
         while True:
-            chunk = f.read(1024 * 1024)  # 1MB씩 읽기
+            chunk = fin.read(1024 * 1024)  # 1MB씩 읽기
             if not chunk:
                 break
 
-            for ch in chunk:
-                if ch.isspace():
+            for char in chunk:
+                if idx % int(100 * 1e6) == 0:
+                    print(f"Preprocessing {idx} characters...")
+
+                if char.isspace():
                     if word_buf:
                         word = "".join(word_buf)
                         if re.fullmatch(r"[a-zA-Z0-9]+", word):
-                            words.append(word.lower())
-                        word_buf = []  # 버퍼 초기화 (메모리 해제 효과)
+                            fout.write(word.lower() + " ")
+                        word_buf = []
                 else:
-                    word_buf.append(ch)
+                    word_buf.append(char)
 
-        # 마지막 단어 처리 (파일 끝에 공백 없을 경우)
+                idx += 1
+
+        # 마지막에 남은 단어 처리
         if word_buf:
             word = "".join(word_buf)
             if re.fullmatch(r"[a-zA-Z0-9]+", word):
-                words.append(word.lower())
+                fout.write(word.lower() + " ")
 
-    print(f"Preprocessed words size: {len(words)}")
-    with open(
-        f"{data_dir}/openwebtext-{size}-preprocessed", "w+", encoding="utf-8"
-    ) as f:
-        for word in words:
-            f.write(word + " ")
+    print("Preprocessing complete.")
 
 
 if __name__ == "__main__":
