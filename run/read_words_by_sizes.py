@@ -28,7 +28,7 @@ def read_words_by_sizes(input_path, sizes):
                     word_buf.clear()
                     word_count += 1
 
-                    if word_count % (current_size[-1] / 10) == 0:
+                    if word_count % (sizes[-1] / 10) == 0:
                         print(
                             f"Accumulated {word_count} words... ({current_size} target size)"
                         )
