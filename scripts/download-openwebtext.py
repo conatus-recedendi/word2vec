@@ -3,6 +3,7 @@
 from datasets import load_dataset
 import re
 import argparse
+import os
 
 
 def load_openwebtext(size="65000000"):
@@ -41,8 +42,13 @@ if __name__ == "__main__":
     args = parser.parse_args()
     size = args.size
     print(f"Loading OpenWebText... ({size})")
+    os.system(f"ps -p {os.getpid()} -o rss,vsz")
     texts = load_openwebtext(size)
+    print("tokneing...")
+    os.system(f"ps -p {os.getpid()} -o rss,vsz")
     words = tokenize(texts)
+    print("preprocessing...")
+    os.system(f"ps -p {os.getpid()} -o rss,vsz")
     words = preprocess(words)
     print("size: ", len(texts))
     print(f"Saving OpenWebText to ../data/openwebtext-l{size}")
@@ -50,8 +56,3 @@ if __name__ == "__main__":
     with open(f"../data/openwebtext-l{size}", "w+", encoding="utf-8") as f:
         for text in words:
             f.write(text + " ")
-
-    # analysis(size="1000")
-    # analysis(size="2000")
-    # analysis(size="5000")
-    # analysis(size="12000")
