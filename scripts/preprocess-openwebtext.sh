@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SIZE = 1000000
 python ../run/dataset.py --function load_openwebtext --size $SIZE
