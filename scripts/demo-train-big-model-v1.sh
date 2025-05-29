@@ -1,7 +1,7 @@
 echo Note: this new demo script is not yet making use of the $BIN, $DATA structure.
 echo Take care to avoid re-downloading and training data you already have locally.
 echo Edit script to remove this safety message and exit.
-exit 1
+exit 0
 
 ###############################################################################################
 #
