@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ./p1-table5.sh
+# ./p1-table6.sh
 
 # 로그 함수 정의
 log_time() {
@@ -20,18 +20,12 @@ BASE_OUTPUT_DIR="../output/p1_custom_${TIMESTAMP}"
 mkdir -p "$BASE_OUTPUT_DIR"
 
 # 데이터셋 분할
-bash ../scripts/split-dataset.sh "$DATASET" 783M 1.6B
+bash ../scripts/split-dataset.sh "$DATASET" 6B
 
 # 조합 리스트 (형식: "iter dim size model")
 combinations=(
-  "3 300 783M cbow"
-  "3 300 783M skip-gram"
-  "1 300 783M cbow"
-  "1 300 1.6B cbow"
-  "1 600 783M cbow"
-  "1 300 783M skip-gram"
-  "1 300 1.6B skip-gram"
-  "1 600 783M skip-gram"
+  "3 1000 6B cbow"
+  "3 1000 6B skip-gram"
 )
 
 # 반복 실행
