@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ./p1-table2.sh
+# ./p1-table3.sh
 
 # 로그 함수 정의
 log_time() {
@@ -13,13 +13,13 @@ log_time() {
 }
 
 # 사전 정의된 파라미터
-DIMENSIONS=(50 100 300 600)
-TRAINING_SIZES=(24M 49M 98M 196M 391M 783M)
+DIMENSIONS=(640)
+TRAINING_SIZES=(320M)
 DATASET="../data/data.txt"
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M")
 
-BASE_OUTPUT_DIR="../output/p1_table2_${TIMESTAMP}"
+BASE_OUTPUT_DIR="../output/p1_table3_${TIMESTAMP}"
 mkdir -p "$BASE_OUTPUT_DIR"
 
 bash ../scripts/split-dataset.sh "$DATASET" "${TRAINING_SIZES[@]}"
@@ -43,6 +43,7 @@ for DIM in "${DIMENSIONS[@]}"; do
 
     echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
     log_time "$LOG_FILE" ./compute-accuracy "$OUTPUT_FILE" 30000 < ../data/questions-words.txt | tee "acc_${SIZE}_${DIM}d.txt"
+    log_time "$LOG_FILE" ./compute-accuracy "$OUTPUT_FILE" 30000 < ../data/msr.txt | tee "acc_${SIZE}_${DIM}d.txt"
 
     echo "✔ Done: $OUTPUT_FILE"
     echo ""
