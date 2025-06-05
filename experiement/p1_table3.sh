@@ -28,8 +28,9 @@ for DIM in "${DIMENSIONS[@]}"; do
   for SIZE in "${TRAINING_SIZES[@]}"; do
     INPUT_FILE="../data/data_${SIZE}.txt"
     
-    OUTPUT_FILE="${BASE_OUTPUT_DIR}/${SIZE}_${DIM}d.bin"
-    LOG_FILE="${BASE_OUTPUT_DIR}/${SIZE}_${DIM}d.log"
+    # for CBOW
+    OUTPUT_FILE="${BASE_OUTPUT_DIR}/cbow_${SIZE}_${DIM}d.bin"
+    LOG_FILE="${BASE_OUTPUT_DIR}/cbow_${SIZE}_${DIM}d.log"
     
     if [ ! -f "$INPUT_FILE" ]; then
       echo "[SKIP] $INPUT_FILE not found." | tee -a "$LOG_FILE"
@@ -39,6 +40,25 @@ for DIM in "${DIMENSIONS[@]}"; do
     echo "▶ Training Word2Vec on $INPUT_FILE with dimension $DIM..." | tee -a "$LOG_FILE"
     log_time "$LOG_FILE" ./word2vec -train "$expINPUT_FILE" -output "$OUTPUT_FILE" \
       -cbow 1 -size "$DIM" -window 10 -negative 10 -hs 0 -sample 0 \
+      -threads 20 -binary 1 -iter 3 -min-count 10
+
+    echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
+    log_time "$LOG_FILE" ./compute-accuracy "$OUTPUT_FILE" 30000 < ../data/questions-words.txt | tee "acc_${SIZE}_${DIM}d.txt"
+    log_time "$LOG_FILE" ./compute-accuracy "$OUTPUT_FILE" 30000 < ../data/msr.txt | tee "acc_${SIZE}_${DIM}d.txt"
+
+
+    # for Skip-gram
+    OUTPUT_FILE="${BASE_OUTPUT_DIR}/skip-gram_${SIZE}_${DIM}d.bin"
+    LOG_FILE="${BASE_OUTPUT_DIR}/skip-gram_${SIZE}_${DIM}d.log"
+    
+    if [ ! -f "$INPUT_FILE" ]; then
+      echo "[SKIP] $INPUT_FILE not found." | tee -a "$LOG_FILE"
+      continue
+    fi
+
+    echo "▶ Training Word2Vec on $INPUT_FILE with dimension $DIM..." | tee -a "$LOG_FILE"
+    log_time "$LOG_FILE" ./word2vec -train "$expINPUT_FILE" -output "$OUTPUT_FILE" \
+      -cbow 0 -size "$DIM" -window 10 -negative 10 -hs 0 -sample 0 \
       -threads 20 -binary 1 -iter 3 -min-count 10
 
     echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
