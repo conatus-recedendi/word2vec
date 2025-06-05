@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ./p1-table6.sh
+# ./p2-table1.sh
 
 # 로그 함수 정의
 log_time() {
@@ -16,21 +16,25 @@ log_time() {
 # 공통 설정
 DATASET="../data/data.txt"
 TIMESTAMP=$(date +"%Y%m%d_%H%M")
-BASE_OUTPUT_DIR="../output/p1_table6_${TIMESTAMP}"
+BASE_OUTPUT_DIR="../output/p1_table1_${TIMESTAMP}"
 mkdir -p "$BASE_OUTPUT_DIR"
 
 # 데이터셋 분할
-bash ../scripts/split-dataset.sh "$DATASET" 6B
+bash ../scripts/split-dataset.sh "$DATASET" 1B
 
 # 조합 리스트 (형식: "iter dim size model")
 combinations=(
-  "3 1000 6B cbow"
-  "3 1000 6B skip-gram"
+  "3 300 1B skip-gram 5 0"
+  "3 300 1B skip-gram 15 0"
+  "3 300 1B skip-gram 0 0"
+  "3 300 1B skip-gram 5 1e-5"
+  "3 300 1B skip-gram 15 1e-5"
+  "3 300 1B skip-gram 0 1e-5"
 )
 
 # 반복 실행
 for combo in "${combinations[@]}"; do
-  read ITER DIM SIZE MODEL <<< "$combo"
+  read ITER DIM SIZE MODEL NS SUBSAMPLE <<< "$combo"
   
   INPUT_FILE="../data/data_${SIZE}.txt"
   if [ ! -f "$INPUT_FILE" ]; then
@@ -38,20 +42,27 @@ for combo in "${combinations[@]}"; do
     continue
   fi
 
-  OUTPUT_FILE="${BASE_OUTPUT_DIR}/${MODEL}_${SIZE}_${DIM}d_iter${ITER}.bin"
-  LOG_FILE="${BASE_OUTPUT_DIR}/${MODEL}_${SIZE}_${DIM}d_iter${ITER}.log"
+  OUTPUT_FILE="${BASE_OUTPUT_DIR}/${MODEL}_${SIZE}_${DIM}d_iter${ITER}_ns${NS}_s${SUBSAMPLE}.bin"
+  LOG_FILE="${BASE_OUTPUT_DIR}/${MODEL}_${SIZE}_${DIM}d_iter${ITER}_ns${NS}_s${SUBSAMPLE}.log"
   
   echo "▶ Training Word2Vec ($MODEL) on $INPUT_FILE with dim=$DIM, iter=$ITER..." | tee -a "$LOG_FILE"
   
-  if [ "$MODEL" == "cbow" ]; then
+if [ "$MODEL" == "cbow" ]; then
     CBOW_FLAG=1
-  else
+  elif [ "$MODEL" == "skip-gram" ]; then
     CBOW_FLAG=0
+  end
+
+  # if $ns is greater than 0, HS_FLAG = 0 or 1
+  if [ "$NS" -gt 0 ]; then
+    HS_FLAG=0
+  else
+    HS_FLAG=1
   fi
 
   log_time "$LOG_FILE" ./word2vec -train "$INPUT_FILE" -output "$OUTPUT_FILE" \
-    -cbow "$CBOW_FLAG" -size "$DIM" -window 10 -negative 0 -hs 1 -sample 0 \
-    -threads 20 -binary 1 -iter "$ITER" -min-count 10
+    -cbow "$CBOW_FLAG" -size "$DIM" -window 10 -negative "$NS" -hs "$HS_FLAG" -sample "$SUBSAMPLE" \
+    -threads 20 -binary 1 -iter "$ITER" -min-count 5
 
   echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
   log_time "$LOG_FILE" ./compute-accuracy "$OUTPUT_FILE" 30000 < ../data/questions-words.txt | tee -a "$LOG_FILE"

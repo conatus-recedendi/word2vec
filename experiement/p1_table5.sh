@@ -16,7 +16,7 @@ log_time() {
 # 공통 설정
 DATASET="../data/data.txt"
 TIMESTAMP=$(date +"%Y%m%d_%H%M")
-BASE_OUTPUT_DIR="../output/p1_custom_${TIMESTAMP}"
+BASE_OUTPUT_DIR="../output/p1_table5_${TIMESTAMP}"
 mkdir -p "$BASE_OUTPUT_DIR"
 
 # 데이터셋 분할
