@@ -1,13 +1,16 @@
 #!/bin/bash
 
-# ./split_units.sh 240K 480M 6G
+# ./split_units.sh ../data/data.txt 240K 480M 6G
 
-INPUT="../data/data.txt"
+INPUT=$1
 WORDS=($(cat $INPUT))
 TOTAL=${#WORDS[@]}
 START=0
 
 for UNIT in "$@"; do
+    if [ "$UNIT" == "$INPUT" ]; then
+        continue  # Skip the input file itself
+    fi
     # 숫자와 단위 분리
     VALUE=$(echo "$UNIT" | sed -E 's/[^0-9.]//g')
     SUFFIX=$(echo "$UNIT" | sed -E 's/[0-9.]//g' | tr '[:lower:]' '[:upper:]')
