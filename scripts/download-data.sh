@@ -82,7 +82,7 @@ process_umbc() {
 
 process_enwiki() {
   if [ ! -f enwiki-latest-pages-articles.xml.bz2 ]; then
-    wget http://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles.xml.bz2 --user-agent DILab/1.0
+    wget --user-agent="DILab/1.0" --referer="https://dumps.wikimedia.org/enwiki/latest/" https://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles.xml.bz2
   fi
   bzip2 -c -d enwiki-latest-pages-articles.xml.bz2 | awk '{print tolower($0);}' | perl -e '
   $/=">";
