@@ -7,5 +7,5 @@ for i in "$@"; do
         echo "File not found: $i"
         exit 1
     fi
-  python ../run/show_dataset_info.py --file $1 | tee "info_${i%.txt}.txt"
+  python ../run/show_dataset_info.py --file $1 | tee "../output/info_${i%.txt}.txt"
 done
