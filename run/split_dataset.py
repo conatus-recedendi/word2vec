@@ -51,6 +51,7 @@ def main():
     input_path = args.input
     unit_args = args.units
     units = [parse_unit(u) for u in unit_args]
+    units_flag = [0] * len(units)
 
     with open(input_path, "r", encoding="utf-8") as f:
         word_gen = read_words_from_stream(f)
@@ -64,8 +65,13 @@ def main():
             except StopIteration:
                 break
 
+            if units_flag == [1] * len(units):
+                print("[run/split_dataset.py] All units processed, exiting.")
+                break
+
             # Skip empty words
             if not word.strip():
+
                 continue
 
             for i, word_limit in enumerate(units):
@@ -73,11 +79,14 @@ def main():
                 output_path = f"../data/data_{unit_str}.txt"
 
                 if os.path.exists(output_path):
-                    print(
-                        f"[run/split_dataset.py] Skipped {output_path} (already exists)"
-                    )
-                    # Skip words to maintain pointer
-                    continue
+                    if units_flag[i] == 1:
+                        continue
+                    else:
+                        units_flag[i] = 1
+                        print(
+                            f"[run/split_dataset.py] {output_path} already exists, skipping."
+                        )
+                        continue
 
                 with open(output_path, "w", encoding="utf-8") as out:
 
