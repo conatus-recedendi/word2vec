@@ -54,30 +54,40 @@ def main():
 
     with open(input_path, "r", encoding="utf-8") as f:
         word_gen = read_words_from_stream(f)
-        for i, word_limit in enumerate(units):
-            unit_str = unit_args[i]
-            output_path = f"../data/data_{unit_str}.txt"
+        # until word_gen is done or all units are processed
+        count = 0
+        while True:
+            # Skip empty words
+            try:
+                word = next(word_gen)
+                count += word.count(" ") + 1  # Count words in the current word
+            except StopIteration:
+                break
 
-            if os.path.exists(output_path):
-                print(f"Skipped {output_path} (already exists)")
-                # Skip words to maintain pointer
-                for _ in range(word_limit):
-                    try:
-                        next(word_gen)
-                    except StopIteration:
-                        return
+            # Skip empty words
+            if not word.strip():
                 continue
 
-            with open(output_path, "w", encoding="utf-8") as out:
-                count = 0
-                for _ in range(word_limit):
+            for i, word_limit in enumerate(units):
+                unit_str = unit_args[i]
+                output_path = f"../data/data_{unit_str}.txt"
+
+                if os.path.exists(output_path):
+                    print(
+                        f"[run/split_dataset.py] Skipped {output_path} (already exists)"
+                    )
+                    # Skip words to maintain pointer
+                    continue
+
+                with open(output_path, "w", encoding="utf-8") as out:
+
+                    # Write words until the limit is reached
+                    if count < word_limit:
+                        continue
                     try:
-                        word = next(word_gen)
                         out.write(word + " ")
-                        count += 1
                     except StopIteration:
                         break
-                print(f"Saved {output_path} ({count} words)")
 
 
 if __name__ == "__main__":

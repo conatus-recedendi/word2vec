@@ -4,12 +4,14 @@
 
 # 로그 함수 정의
 log_time() {
-        echo "Running: $*" | tee -a "$1"
+        logfile="$1"
+        shift
+        echo "Running: $*" | tee -a "$logfile"
         start=$(date +%s)
-        "$@" 2>&1 | tee -a "$1"
+        "$@" 2>&1 | tee -a "$logfile"
         end=$(date +%s)
         echo "Time elapsed: $((end - start))s" | tee -a "$logfile"
-        echo "" | tee -a "$1"
+        echo "" | tee -a "$logfile"
 }
 
 # 사전 정의된 파라미터
@@ -42,7 +44,7 @@ for DIM in "${DIMENSIONS[@]}"; do
       -threads 20 -binary 1 -iter 3 -min-count 10
 
     echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
-    log_time "$LOG_FILE" ./compute-accuracy "$OUTPUT_FILE" 30000 < ../data/questions-words.txt | tee "acc_${SIZE}_${DIM}d.txt"
+    log_time "$LOG_FILE" ./compute-accuracy "$OUTPUT_FILE" 30000 < ../data/questions-words.txt
 
     echo "✔ Done: $OUTPUT_FILE"
     echo ""
