@@ -86,12 +86,15 @@ def main():
                 unit_str = unit_args[i]
                 output_path = f"../data/data_{unit_str}.txt"
 
+                if count > word_limit:
+                    units_flag[i] = 1
+                    print(
+                        f"[run/split_dataset.py] Reached limit for {unit_str}, skipping."
+                    )
+                    continue
                 with open(output_path, "w", encoding="utf-8") as out:
 
                     # Write words until the limit is reached
-                    if count < word_limit:
-                        units_flag[i] = 1
-                        continue
                     try:
                         out.write(word + " ")
                     except StopIteration:
