@@ -53,6 +53,14 @@ def main():
     units = [parse_unit(u) for u in unit_args]
     units_flag = [0] * len(units)
 
+    for i, unit in enumerate(units):
+        output_path = f"../data/data_{unit_args[i]}.txt"
+        if os.path.exists(output_path):
+            units_flag[i] = 1
+            print(f"[run/split_dataset.py] {output_path} already exists, skipping.")
+        else:
+            print(f"[run/split_dataset.py] {output_path} does not exist, will create.")
+
     with open(input_path, "r", encoding="utf-8") as f:
         word_gen = read_words_from_stream(f)
         # until word_gen is done or all units are processed
@@ -78,20 +86,11 @@ def main():
                 unit_str = unit_args[i]
                 output_path = f"../data/data_{unit_str}.txt"
 
-                if os.path.exists(output_path):
-                    if units_flag[i] == 1:
-                        continue
-                    else:
-                        units_flag[i] = 1
-                        print(
-                            f"[run/split_dataset.py] {output_path} already exists, skipping."
-                        )
-                        continue
-
                 with open(output_path, "w", encoding="utf-8") as out:
 
                     # Write words until the limit is reached
                     if count < word_limit:
+                        units_flag[i] = 1
                         continue
                     try:
                         out.write(word + " ")
