@@ -92,7 +92,8 @@ def main():
                         f"[run/split_dataset.py] Reached limit for {unit_str}, skipping."
                     )
                     continue
-                with open(output_path, "w", encoding="utf-8") as out:
+                # 이어쓰기
+                with open(output_path, "a", encoding="utf-8") as out:
 
                     # Write words until the limit is reached
                     try:
