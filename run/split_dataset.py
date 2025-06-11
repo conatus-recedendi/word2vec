@@ -49,7 +49,7 @@ def main():
     args = parser.parse_args()
 
     input_path = args.input
-    unit_args = args.units.split(" ")[0]
+    unit_args = args.units[0].split(" ")
     units = [parse_unit(u) for u in unit_args]
     units_flag = [0] * len(units)
 
