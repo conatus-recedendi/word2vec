@@ -83,7 +83,7 @@ def main():
 
             for i, word_limit in enumerate(units):
                 unit_str = unit_args[i]
-                output_path = f"../data/data_{unit_str}.txt"
+                output_path = f"../data/14b_{unit_str}.txt"
 
                 if count > word_limit:
                     units.remove(word_limit)
