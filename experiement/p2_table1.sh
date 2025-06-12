@@ -8,7 +8,7 @@ log_time() {
         shift
         echo "Running: $*" | tee -a "$logfile"
         start=$(date +%s)
-        "$@" 2>&1 | awk '{ if ($0 !~ /\r/) print }' | tee -a "$logfile"
+        "$@" 2>&1 | tee /dev/tty | awk 'index($0, "\r") == 0' >> "$logfile"
         end=$(date +%s)
         echo "Time elapsed: $((end - start))s" | tee -a "$logfile"
         echo "" | tee -a "$logfile"
