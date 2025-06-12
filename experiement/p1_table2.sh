@@ -10,11 +10,11 @@ log_time() {
     echo "Running: $*" | tee -a "$logfile"
     start=$(date +%s)
 
-    # 출력 분기: \r 포함 줄은 로그에서 제외, 화면에는 모두 출력
     "$@" 2>&1 | while IFS= read -r line; do
-        echo "$line"             # 화면 출력 (모든 줄)
         if [[ "$line" != *$'\r'* ]]; then
-            echo "$line" >> "$logfile"   # 캐리지 리턴 없을 때만 로그
+            echo "$line" | tee -a "$logfile"  # 로그 + 화면
+        else
+            echo "$line"                      # 화면 only
         fi
     done
 
@@ -22,6 +22,7 @@ log_time() {
     echo "Time elapsed: $((end - start))s" | tee -a "$logfile"
     echo "" | tee -a "$logfile"
 }
+
 
 
 # 사전 정의된 파라미터
