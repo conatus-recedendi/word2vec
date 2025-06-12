@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 data_dir = "../data"
 
@@ -20,10 +21,14 @@ def show_info(file_name):
             # if read 14b.txt(93Gb), it will take  93 * 1024 * 1024 / 4096 = 24,576 iterations
             if not words:
                 break
-            if f.tell() % (file_size // 10) == 0:
-                print(
-                    f"[show_dataset_info.py] Processed {f.tell() / file_size:.2%} of the file."
-                )
+
+            # show percentages
+            percent = f.tell() / file_size * 100
+            sys.stdout.write(
+                f"\rProcessing {file_name}: {percent:.2f}% complete, "
+                f"Total words: {word_cnt}, Unique words: {len(word_set)}"
+            )
+            sys.stdout.flush()
 
             words = buf + words
 
@@ -34,6 +39,7 @@ def show_info(file_name):
             for word in words:
                 if word.strip():
                     word_set.add(word)
+
                     word_cnt += 1
 
     print(f"Dataset file: {data_dir}/{file_name}")
