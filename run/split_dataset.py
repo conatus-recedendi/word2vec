@@ -54,7 +54,7 @@ def main():
     units = [{"value": parse_unit(u), "unit_args": u} for u in unit_args]
 
     for i, unit in enumerate(units):
-        output_path = f"../data/data_{unit_args[i]}.txt"
+        output_path = f"../data/14b_{unit_args[i]}.txt"
         if os.path.exists(output_path):
             units.remove(unit)
             print(f"[run/split_dataset.py] {output_path} already exists, skipping.")
