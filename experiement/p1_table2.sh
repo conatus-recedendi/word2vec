@@ -39,12 +39,12 @@ for DIM in "${DIMENSIONS[@]}"; do
     fi
 
     echo "▶ Training Word2Vec on $INPUT_FILE with dimension $DIM..." | tee -a "$LOG_FILE"
-    log_time "$LOG_FILE" ./word2vec -train "$expINPUT_FILE" -output "$OUTPUT_FILE" \
+    log_time "$LOG_FILE" ../src/word2vec -train "$expINPUT_FILE" -output "$OUTPUT_FILE" \
       -cbow 1 -size "$DIM" -window 10 -negative 0 -hs 1 -sample 0 \
       -threads 20 -binary 1 -iter 3 -min-count 10
 
     echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
-    log_time "$LOG_FILE" ./compute-accuracy "$OUTPUT_FILE" 30000 < ../data/questions-words.txt
+    log_time "$LOG_FILE" ../src/compute-accuracy "$OUTPUT_FILE" 30000 < ../data/questions-words.txt
 
     echo "✔ Done: $OUTPUT_FILE"
     echo ""

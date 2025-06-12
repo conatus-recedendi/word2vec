@@ -71,13 +71,13 @@ for combo in "${combinations[@]}"; do
     HS_FLAG=1
   fi
 
-  log_time "$LOG_FILE" ./word2vec -train "$INPUT_FILE" -output "$OUTPUT_FILE" \
+  log_time "$LOG_FILE" ../src/word2vec -train "$INPUT_FILE" -output "$OUTPUT_FILE" \
     -cbow "$CBOW_FLAG" -size "$DIM" -window 5 -negative "$NS" -hs "$HS_FLAG" -sample "$SUBSAMPLE" \
     -threads 20 -binary 1 -iter "$ITER" -min-count 5
 
   echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
-  log_time "$LOG_FILE" ./compute-accuracy "$OUTPUT_FILE" 30000 < ../data/questions-words.txt | tee -a "$LOG_FILE"
-  log_time "$LOG_FILE" ./compute-accuracy "$OUTPUT_FILE" 30000 < ../data/msr.txt | tee -a "$LOG_FILE"
+  log_time "$LOG_FILE" ../src/compute-accuracy "$OUTPUT_FILE" 30000 < ../data/questions-words.txt | tee -a "$LOG_FILE"
+  log_time "$LOG_FILE" ../src/compute-accuracy "$OUTPUT_FILE" 30000 < ../data/msr.txt | tee -a "$LOG_FILE"
 
   echo "✔ Done: $OUTPUT_FILE"
   echo ""
