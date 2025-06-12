@@ -16,22 +16,23 @@ def parse_unit(unit_str):
         raise ValueError(f"Unknown unit: {suffix}")
 
 
-def read_words_from_stream(f):
+def read_words_from_stream(
+    f,
+):
     buf = ""
     while True:
         chunk = f.read(4096)
         if not chunk:
             break
-        buf += chunk
-        while True:
-            split = buf.split(" ", 1)
-            if len(split) < 2:
-                break
-            yield split[0]
-            buf = split[1]
+        chunk = buf + chunk
+
+        buf = chunk[chunk.rfind(" ") + 1 :]  # keep the last word in the buffer
+        chunk = chunk[: -len(buf)]
+
+        yield chunk  # output words
+
     if buf.strip():
-        for word in buf.strip().split():
-            yield word
+        yield buf.strip()  # yield any remaining words in the buffer
 
 
 def main():
@@ -51,12 +52,11 @@ def main():
     input_path = args.input
     unit_args = args.units[0].split(" ")
     units = [parse_unit(u) for u in unit_args]
-    units_flag = [0] * len(units)
 
     for i, unit in enumerate(units):
         output_path = f"../data/data_{unit_args[i]}.txt"
         if os.path.exists(output_path):
-            units_flag[i] = 1
+            units.remove(unit)
             print(f"[run/split_dataset.py] {output_path} already exists, skipping.")
         else:
             print(f"[run/split_dataset.py] {output_path} does not exist, will create.")
@@ -64,22 +64,21 @@ def main():
     with open(input_path, "r", encoding="utf-8") as f:
         word_gen = read_words_from_stream(f)
         # until word_gen is done or all units are processed
-        count = 0
+        count = 0  # Total word count across all units
         while True:
             # Skip empty words
             try:
-                word = next(word_gen)
-                count += word.count(" ") + 1  # Count words in the current word
+                words = next(word_gen)  # "apple banana cherry"
+                count += len(words.split())
             except StopIteration:
                 break
 
-            if units_flag == [1] * len(units):
-                print("[run/split_dataset.py] All units processed, exiting.")
+            if len(units) == 0:
+                print("[run/split_dataset.py] All units are full, exiting.")
                 break
 
             # Skip empty words
-            if not word.strip():
-
+            if not words.strip():
                 continue
 
             for i, word_limit in enumerate(units):
@@ -87,7 +86,8 @@ def main():
                 output_path = f"../data/data_{unit_str}.txt"
 
                 if count > word_limit:
-                    units_flag[i] = 1
+                    units.remove(word_limit)
+
                     print(
                         f"[run/split_dataset.py] Reached limit for {unit_str}, skipping."
                     )
@@ -97,7 +97,7 @@ def main():
 
                     # Write words until the limit is reached
                     try:
-                        out.write(word + " ")
+                        out.write(words)
                     except StopIteration:
                         break
 
