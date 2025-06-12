@@ -14,7 +14,7 @@ log_time() {
 #!/bin/bash
 
 # 공통 설정
-DATASET="../data/data.txt"
+DATASET="../data/14b.txt"
 TIMESTAMP=$(date +"%Y%m%d_%H%M")
 BASE_OUTPUT_DIR="../output/p1_table1_${TIMESTAMP}"
 mkdir -p "$BASE_OUTPUT_DIR"
@@ -36,7 +36,7 @@ combinations=(
 for combo in "${combinations[@]}"; do
   read ITER DIM SIZE MODEL NS SUBSAMPLE <<< "$combo"
   
-  INPUT_FILE="../data/data_${SIZE}.txt"
+  INPUT_FILE="../data/14b_${SIZE}.txt"
   if [ ! -f "$INPUT_FILE" ]; then
     echo "[SKIP] $INPUT_FILE not found."
     continue

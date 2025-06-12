@@ -17,7 +17,7 @@ log_time() {
 # 사전 정의된 파라미터
 DIMENSIONS=(50 100 300 600)
 TRAINING_SIZES=(24M 49M 98M 196M 391M 783M)
-DATASET="../data/data.txt"
+DATASET="../data/14b.txt"
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M")
 
@@ -28,7 +28,7 @@ bash ../scripts/split-dataset.sh "$DATASET" "${TRAINING_SIZES[@]}"
 # 각 조합에 대해 반복
 for DIM in "${DIMENSIONS[@]}"; do
   for SIZE in "${TRAINING_SIZES[@]}"; do
-    INPUT_FILE="../data/data_${SIZE}.txt"
+    INPUT_FILE="../data/14b_${SIZE}.txt"
     
     OUTPUT_FILE="${BASE_OUTPUT_DIR}/${SIZE}_${DIM}d.bin"
     LOG_FILE="${BASE_OUTPUT_DIR}/${SIZE}_${DIM}d.log"
