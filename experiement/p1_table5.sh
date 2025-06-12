@@ -4,24 +4,16 @@
 
 # 로그 함수 정의
 log_time() {
-    logfile="$1"
-    shift
-
-    echo "Running: $*" | tee -a "$logfile"
-    start=$(date +%s)
-
-    # 출력 분기: \r 포함 줄은 로그에서 제외, 화면에는 모두 출력
-    "$@" 2>&1 | while IFS= read -r line; do
-        echo "$line"             # 화면 출력 (모든 줄)
-        if [[ "$line" != *$'\r'* ]]; then
-            echo "$line" >> "$logfile"   # 캐리지 리턴 없을 때만 로그
-        fi
-    done
-
-    end=$(date +%s)
-    echo "Time elapsed: $((end - start))s" | tee -a "$logfile"
-    echo "" | tee -a "$logfile"
+        logfile="$1"
+        shift
+        echo "Running: $*" | tee -a "$logfile"
+        start=$(date +%s)
+        "$@" 2>&1 | awk '{ if ($0 !~ /\r/) print }' | tee -a "$logfile"
+        end=$(date +%s)
+        echo "Time elapsed: $((end - start))s" | tee -a "$logfile"
+        echo "" | tee -a "$logfile"
 }
+
 
 #!/bin/bash
 

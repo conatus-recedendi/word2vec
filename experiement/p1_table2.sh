@@ -4,23 +4,14 @@
 
 # 로그 함수 정의
 log_time() {
-    logfile="$1"
-    shift
-
-    echo "Running: $*" | tee -a "$logfile"
-    start=$(date +%s)
-
-    "$@" 2>&1 | while IFS= read -r line; do
-        if [[ "$line" != *$'\r'* ]]; then
-            echo "$line" | tee -a "$logfile"  # 로그 + 화면
-        else
-            echo "$line"                      # 화면 only
-        fi
-    done
-
-    end=$(date +%s)
-    echo "Time elapsed: $((end - start))s" | tee -a "$logfile"
-    echo "" | tee -a "$logfile"
+        logfile="$1"
+        shift
+        echo "Running: $*" | tee -a "$logfile"
+        start=$(date +%s)
+        "$@" 2>&1 | awk '{ if ($0 !~ /\r/) print }' | tee -a "$logfile"
+        end=$(date +%s)
+        echo "Time elapsed: $((end - start))s" | tee -a "$logfile"
+        echo "" | tee -a "$logfile"
 }
 
 
