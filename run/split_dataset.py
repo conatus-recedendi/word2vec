@@ -61,6 +61,7 @@ def main():
         else:
             print(f"[run/split_dataset.py] {output_path} does not exist, will create.")
 
+    print(units)
     with open(input_path, "r", encoding="utf-8") as f:
         word_gen = read_words_from_stream(f)
         # until word_gen is done or all units are processed
