@@ -8,7 +8,7 @@ PATTERN=""
 
 LOG_FILE=$1
 shift
-cd ../output/
+cd $1
 
 
 
