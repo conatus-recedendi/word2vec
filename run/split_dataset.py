@@ -51,7 +51,7 @@ def main():
 
     input_path = args.input
     unit_args = args.units[0].split(" ")
-    units = [parse_unit(u) for u in unit_args]
+    units = [{"value": parse_unit(u), "unit_args": u} for u in unit_args]
 
     for i, unit in enumerate(units):
         output_path = f"../data/data_{unit_args[i]}.txt"
@@ -81,12 +81,13 @@ def main():
             if not words.strip():
                 continue
 
-            for i, word_limit in enumerate(units):
-                unit_str = unit_args[i]
+            for i, word_unit_info in enumerate(units):
+                unit_str = word_unit_info["unit_args"]
                 output_path = f"../data/14b_{unit_str}.txt"
 
-                if count > word_limit:
-                    units.remove(word_limit)
+                if count > word_unit_info["value"]:
+                    # units.remove(word_limit)
+                    units.remove(word_unit_info)
 
                     print(
                         f"[run/split_dataset.py] Reached limit for {unit_str}, skipping."
