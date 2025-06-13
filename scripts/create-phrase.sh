@@ -1,7 +1,10 @@
 #!bin/bash
 # bash ./create-phrase.sh
-THRESHOLD=( 200 100 )
-SIZE = 1B
+
+#  p2_table3.sh: threhshold 200, 100, 50, size=1B
+#  p2_exp1.sh: threhshold 200, 100, 50, size=6B
+THRESHOLD=( 200 100 50 )
+SIZE = 1B # 
 DATASET="../data/14b_$SIZE.txt"
 STEP=2 # bi-gram. 3 means tri-gram ...
 
