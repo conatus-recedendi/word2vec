@@ -44,7 +44,7 @@ combinations=(
 for combo in "${combinations[@]}"; do
   read ITER DIM SIZE MODEL NS SUBSAMPLE <<< "$combo"
   
-  INPUT_FILE="../data/14b_${SIZE}.txt"
+  INPUT_FILE="../data/data_phrase_gram=${GRAM}_th=${PHRASE_THRESHOLD}.txt"
   if [ ! -f "$INPUT_FILE" ]; then
     echo "[SKIP] $INPUT_FILE not found."
     continue
