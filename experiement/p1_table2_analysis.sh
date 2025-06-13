@@ -1,7 +1,13 @@
 #!/bin/bash
 
 # 사용 예:
+# total accuracy 
 # ./parse_logs.sh ../output/p1_table2_20250612_0655 --keys size dim --pattern "Total accuracy:"
+# questions seen / total
+# ./parse_logs.sh ../output/p1_table2_20250612_0655 --keys size dim iter model --pattern "Questions seen / total:"
+# time elapsed
+# ./parse_logs.sh ../output/p1_table2_20250612_0655 --keys size dim iter model --pattern "Time elapsed:"
+
 
 # caution! only for p1_table2 logs
 
