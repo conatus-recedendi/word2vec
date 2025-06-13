@@ -3,6 +3,8 @@
 # 사용 예:
 # ./parse_logs.sh ../output/p1_table2_20250612_0655 --keys size dim --pattern "Total accuracy:"
 
+# caution! only for p1_table2 logs
+
 
 KEYS=()
 PATTERN=""
@@ -57,7 +59,7 @@ for file in *.log; do
 
     # 로그 라인 검색
     if [[ -n "$PATTERN" ]]; then
-        match_line=$(grep -m 1 "$PATTERN" "$file")
+        match_line=$(grep  "$PATTERN" "$file" | tail -n 1)
     else
         match_line=""
     fi
