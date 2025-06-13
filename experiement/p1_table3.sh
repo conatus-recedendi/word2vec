@@ -47,8 +47,8 @@ for DIM in "${DIMENSIONS[@]}"; do
       -threads 20 -binary 1 -iter 3 -min-count 10
 
     echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
-    log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 30000 < ../data/questions-words.txt | tee "acc_${SIZE}_${DIM}d.txt"
-    log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 30000 < ../data/msr.txt | tee "acc_${SIZE}_${DIM}d.txt"
+    log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 30000 < ../data/questions-words.txt
+    log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 30000 < ../data/msr.txt 
 
 
     # for Skip-gram
@@ -66,8 +66,8 @@ for DIM in "${DIMENSIONS[@]}"; do
       -threads 20 -binary 1 -iter 3 -min-count 10
 
     echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
-    log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" < ../data/questions-words.txt | tee "acc_${SIZE}_${DIM}d.txt"
-    log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" < ../data/msr.txt | tee "acc_${SIZE}_${DIM}d.txt"
+    log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" < ../data/questions-words.txt 
+    log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" < ../data/msr.txt 
 
     echo "✔ Done: $OUTPUT_FILE"
     echo ""
