@@ -72,6 +72,11 @@ int main(int argc, char **argv)
   fclose(f);
   TCN = 0;
   while (1) {
+    if (TQ % 1000 == 0) {
+      printf("Progress; %lld K\n", TQ % 1000);
+      fflush(stdout);
+    }
+
     for (a = 0; a < N; a++) bestd[a] = 0;
     for (a = 0; a < N; a++) bestw[a][0] = 0;
     scanf("%s", st1);
