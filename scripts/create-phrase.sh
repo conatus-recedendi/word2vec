@@ -15,7 +15,7 @@ for i in "${THRESHOLD[@]}"; do
       ../bin/word2phrase -train "$DATASET" -output data_phrase_gram=${STEP}_th=${i}_size=${SIZE}.txt -threshold "$i" -debug 2
     else
       echo "Creating phrases with threshold $i (step $STEP)"
-      ../bin/word2phrase -train data_phrase_gram=$((STEP - 1))_th=${THRESHOLD[STEP - 2]}_size=${SIZE}..txt -output data_phrase_step=${STEP}_th=${i}_size=${SIZE}..txt -threshold "$i" -debug 2
+      ../bin/word2phrase -train data_phrase_gram=$((STEP - 1))_th=${THRESHOLD[STEP - 2]}_size=${SIZE}.txt -output data_phrase_step=${STEP}_th=${i}_size=${SIZE}.txt -threshold "$i" -debug 2
     fi
     STEP=$((STEP + 1))
 done
