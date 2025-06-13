@@ -10,7 +10,7 @@ def parse_unit(unit_str):
         return int(num * 1_000)
     elif suffix == "M":
         return int(num * 1_000_000)
-    elif suffix == "B" | suffix == "G":
+    elif suffix == "B" or suffix == "G":
         return int(num * 1_000_000_000)
     else:
         raise ValueError(f"Unknown unit: {suffix}")
