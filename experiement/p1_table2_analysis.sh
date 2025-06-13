@@ -6,16 +6,16 @@
 # questions seen / total
 # ./parse_logs.sh ../output/p1_table2_20250612_0655 --keys size dim iter model --pattern "Questions seen / total:"
 # time elapsed
-# ./parse_logs.sh ../output/p1_table2_20250612_0655 --keys size dim iter model --pattern "Time elapsed:"
+# ./parse_logs.sh ../output/p1_table2_20250612_0655 --keys size dim iter model --pattern "Time elapsed:" --append
 
 
 # caution! only for p1_table2 logs
 
-
 KEYS=()
 PATTERN=""
+APPEND=false
 LOG_FILE=$1
-cd $1
+cd "$1" || { echo "Directory not found: $1"; exit 1; }
 shift
 
 # 인자 파싱
@@ -28,6 +28,9 @@ while [[ "$#" -gt 0 ]]; do
         --pattern)
             shift
             PATTERN="$1"
+            ;;
+        --append)
+            APPEND=true
             ;;
         *)
             echo "Unknown argument: $1"
@@ -58,9 +61,13 @@ for file in *.log; do
 
     # 로그 라인 검색
     if [[ -n "$PATTERN" ]]; then
-        match_line=$(grep  "$PATTERN" "$file" | tail -n 1)
+        if $APPEND; then
+            match_lines=$(grep "$PATTERN" "$file" | sed ':a;N;$!ba;s/\n/\\n/g')
+        else
+            match_lines=$(grep "$PATTERN" "$file" | tail -n 1)
+        fi
     else
-        match_line=""
+        match_lines=""
     fi
 
     # JSON 출력
@@ -72,6 +79,6 @@ for file in *.log; do
     if [[ ${#extra_parts[@]} -gt 0 ]]; then
         echo "  \"extra\": \"${extra_parts[*]}\","
     fi
-    echo "  \"log_line\": \"${match_line//\"/\\\"}\""
+    echo "  \"log_line\": \"${match_lines//\"/\\\"}\""
     echo "}"
 done
