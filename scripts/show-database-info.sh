@@ -3,5 +3,6 @@
 # ./show-database-info.sh data.txt data2.txt
 
 for i in "$@"; do
-  python ../run/show_dataset_info.py --file $1 | touch "../output/${i%}.info" | tee "../output/${i%}.info"
+  touch "../output/${i%}.info"
+  python ../run/show_dataset_info.py --file $1 | tee /dev/tty | awk 'index($0, "\r") == 0' >> "../output/${i%}.info"
 done
