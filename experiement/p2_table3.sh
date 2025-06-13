@@ -7,6 +7,7 @@
 GRAM=2
 PHRASE_THRESHOLD=100
 echo "Running with GRAM=$GRAM, PHRASE_THRESHOLD=$PHRASE_THRESHOLD"
+echo "Before running this script, make sure you have created the phrase dataset using create-phrase.sh."
 read -p "Press [Enter] to continue or Ctrl+C to exit..."
 # waiting until user confirms y
 
@@ -81,7 +82,7 @@ for combo in "${combinations[@]}"; do
 
   echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
   log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 400000 < ../data/questions-words.txt 
-  log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 400000 < ../data/msr.txt 
+  log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 1000000 < ../data/questions-phrases.txt 
 
   echo "✔ Done: $OUTPUT_FILE"
   echo ""
