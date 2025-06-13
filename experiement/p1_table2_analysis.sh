@@ -47,19 +47,12 @@ for file in *.log; do
     declare -A values=()
     extra_parts=()
 
-    # 각 조각을 키와 매핑
-    for part in "${parts[@]}"; do
-        matched=false
-        for key in "${KEYS[@]}"; do
-            if [[ "$part" == ${key}* ]]; then
-                value="${part#${key}}"
-                values["$key"]="$value"
-                matched=true
-                break
-            fi
-        done
-        if ! $matched; then
-            extra_parts+=("$part")
+    for i in "${!parts[@]}"; do
+        if [[ $i -lt ${#KEYS[@]} ]]; then
+            key="${KEYS[$i]}"
+            values["$key"]="${parts[$i]}"
+        else
+            extra_parts+=("${parts[$i]}")
         fi
     done
 
