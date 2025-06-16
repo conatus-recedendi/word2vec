@@ -28,7 +28,7 @@ TIMESTAMP=$(date +"%Y%m%d_%H%M")
 BASE_OUTPUT_DIR="../output/p1_exp2_${TIMESTAMP}"
 mkdir -p "$BASE_OUTPUT_DIR"
 
-OUTPUT=$1
+OUTPUT_DIR=$1
 
 # bash ../scripts/split-dataset.sh "$DATASET" "${TRAINING_SIZES[@]}"
 # 각 조합에 대해 반복
@@ -36,16 +36,16 @@ for DIM in "${DIMENSIONS[@]}"; do
   for SIZE in "${TRAINING_SIZES[@]}"; do
     INPUT_FILE="../data/14b_${SIZE}.txt"
     
-    OUTPUT_FILE="${BASE_OUTPUT_DIR}/${SIZE}_${DIM}d.bin"
-    LOG_FILE="${BASE_OUTPUT_DIR}/${SIZE}_${DIM}d.log"
+    REF_OUTPUT_FILE="${BASE_OUTPUT_DIR}/${SIZE}_${DIM}d.bin"
+    LOG_FILE="${OUTPUT_DIR}/${SIZE}_${DIM}d.log"
     
     if [ ! -f "$INPUT_FILE" ]; then
       echo "[SKIP] $INPUT_FILE not found." | tee -a "$LOG_FILE"
       continue
     fi
 
-    if [ ! -f "$OUTPUT" ]; then
-      echo "[SKIP] $OUTPUT not found." | tee -a "$LOG_FILE"
+    if [ ! -f "$REF_OUTPUT_FILE" ]; then
+      echo "[SKIP] $REF_OUTPUT_FILE not found." | tee -a "$LOG_FILE"
       continue
     fi
 
@@ -54,8 +54,8 @@ for DIM in "${DIMENSIONS[@]}"; do
     #   -cbow 1 -size "$DIM" -window 10 -negative 0 -hs 1 -sample 0 \
     #   -threads 20 -binary 1 -iter 3 -min-count 10
 
-    echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
-    log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 400000 < ../data/questions-words.txt
+    echo "▶ Evaluating accuracy for $REF_OUTPUT_FILE" | tee -a "$LOG_FILE"
+    log_time "$LOG_FILE" ../bin/compute-accuracy "$REF_OUTPUT_FILE" 400000 < ../data/questions-words.txt
 
     echo "✔ Done: $OUTPUT_FILE"
     echo ""
