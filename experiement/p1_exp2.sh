@@ -44,7 +44,7 @@ for DIM in "${DIMENSIONS[@]}"; do
       continue
     fi
 
-    if [ ! -f "OUTPUT" ]; then
+    if [ ! -f "$OUTPUT" ]; then
       echo "[SKIP] $OUTPUT not found." | tee -a "$LOG_FILE"
       continue
     fi
