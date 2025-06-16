@@ -27,6 +27,7 @@ TIMESTAMP=$(date +"%Y%m%d_%H%M")
 BASE_OUTPUT_DIR="../output/p1_exp1_${TIMESTAMP}"
 REF_OUTPUT_FOLDER=$1
 
+mkdir -p "$BASE_OUTPUT_DIR"
 # 데이터셋 분할
 # bash ../scripts/split-dataset.sh "$DATASET" 783M 1.6B
 
