@@ -1,13 +1,10 @@
 #!/bin/bash
 
-# ./p1_exp3 ../output/p1_table3
+# bash ./p1_exp3 ../output/p1_table5_20250613_0828
 
 # p1_table5 에서 "Acccuracy is reported on the full semantic-syntatic data set"이라고 해서 threshold 완전 제거
 #!/bin/bash
 
-# ./p1-exp2.sh ../output/p1_table2_20250612_0655
-
-# p1_table5에서 구한 binary 데이터를 가지고, auccraecy threshold 400K개만 측정한 실험
 
 # 로그 함수 정의
 log_time() {
@@ -24,8 +21,8 @@ log_time() {
 
 
 # 사전 정의된 파라미터
-DIMENSIONS=(640)
-TRAINING_SIZES=(320M)
+DIMENSIONS=(50 100 300 600)
+TRAINING_SIZES=(24M 49M 98M 196M 391M 783M)
 DATASET="../data/14b.txt"
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M")
@@ -60,7 +57,7 @@ for DIM in "${DIMENSIONS[@]}"; do
     #   -threads 20 -binary 1 -iter 3 -min-count 10
 
     echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
-    log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" < ../data/questions-words.txt
+    log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 400000 < ../data/questions-words.txt
 
     echo "✔ Done: $OUTPUT_FILE"
     echo ""
