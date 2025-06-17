@@ -20,9 +20,17 @@ log_time() {
 
 
 
-# 사전 정의된 파라미터
-DIMENSIONS=(50 100 300 600)
-TRAINING_SIZES=(24M 49M 98M 196M 391M 783M)
+combinations=(
+  "3 300 783M cbow"
+  "3 300 783M skip-gram"
+  "1 300 783M cbow"
+  "1 300 1.6B cbow"
+  "1 600 783M cbow"
+  "1 300 783M skip-gram"
+  "1 300 1.6B skip-gram"
+  "1 600 783M skip-gram"
+)
+
 DATASET="../data/14b.txt"
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M")
@@ -32,34 +40,66 @@ mkdir -p "$BASE_OUTPUT_DIR"
 
 REF_OUTPUT_DIR=$1
 
-# bash ../scripts/split-dataset.sh "$DATASET" "${TRAINING_SIZES[@]}"
-# 각 조합에 대해 반복
-for DIM in "${DIMENSIONS[@]}"; do
-  for SIZE in "${TRAINING_SIZES[@]}"; do
-    INPUT_FILE="../data/14b_${SIZE}.txt"
-    
-    OUTPUT_FILE="${REF_OUTPUT_DIR}/${SIZE}_${DIM}d.bin"
-    LOG_FILE="${BASE_OUTPUT_DIR}/${SIZE}_${DIM}d.log"
-    
-    if [ ! -f "$INPUT_FILE" ]; then
-      echo "[SKIP] $INPUT_FILE not found." | tee -a "$LOG_FILE"
-      continue
-    fi
 
-    if [ ! -f "$OUTPUT_FILE" ]; then
-      echo "[SKIP] $OUTPUT_FILE not found." | tee -a "$LOG_FILE"
-      continue
-    fi
+for combo in "${combinations[@]}"; do
+  read ITER DIM SIZE MODEL <<< "$combo"
+  
+  INPUT_FILE="../data/14b_${SIZE}.txt"
+  if [ ! -f "$INPUT_FILE" ]; then
+    echo "[SKIP] $INPUT_FILE not found."
+    continue
+  fi
 
-    # echo "▶ Training Word2Vec on $INPUT_FILE with dimension $DIM..." | tee -a "$LOG_FILE"
-    # log_time "$LOG_FILE" ../bin/word2vec -train "$INPUT_FILE" -output "$OUTPUT_FILE" \
-    #   -cbow 1 -size "$DIM" -window 10 -negative 0 -hs 1 -sample 0 \
-    #   -threads 20 -binary 1 -iter 3 -min-count 10
+  OUTPUT_FILE="${REF_OUTPUT_DIR}/${MODEL}_${SIZE}_${DIM}d_iter${ITER}.bin"
+  LOG_FILE="${BASE_OUTPUT_DIR}/${MODEL}_${SIZE}_${DIM}d_iter${ITER}.log"
+  
+  echo "▶ Training Word2Vec ($MODEL) on $INPUT_FILE with dim=$DIM, iter=$ITER..." | tee -a "$LOG_FILE"
+  
+  if [ "$MODEL" == "cbow" ]; then
+    CBOW_FLAG=1
+  else
+    CBOW_FLAG=0
+  fi
+  
+  # log_time "$LOG_FILE" ../bin/word2vec -train "$INPUT_FILE" -output "$OUTPUT_FILE" \
+  #   -cbow "$CBOW_FLAG" -size "$DIM" -window 10 -negative 0 -hs 1 -sample 0 \
+  #   -threads 20 -binary 1 -iter "$ITER" -min-count 10
 
-    echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
-    log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 400000 < ../data/questions-words.txt
+  echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
+  log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 0 < ../data/questions-words.txt
 
-    echo "✔ Done: $OUTPUT_FILE"
-    echo ""
-  done
+  echo "✔ Done: $OUTPUT_FILE"
+  echo ""
 done
+
+# # bash ../scripts/split-dataset.sh "$DATASET" "${TRAINING_SIZES[@]}"
+# # 각 조합에 대해 반복
+# for DIM in "${DIMENSIONS[@]}"; do
+#   for SIZE in "${TRAINING_SIZES[@]}"; do
+#     INPUT_FILE="../data/14b_${SIZE}.txt"
+    
+#     OUTPUT_FILE="${REF_OUTPUT_DIR}/${SIZE}_${DIM}d.bin"
+#     LOG_FILE="${BASE_OUTPUT_DIR}/${SIZE}_${DIM}d.log"
+    
+#     if [ ! -f "$INPUT_FILE" ]; then
+#       echo "[SKIP] $INPUT_FILE not found." | tee -a "$LOG_FILE"
+#       continue
+#     fi
+
+#     if [ ! -f "$OUTPUT_FILE" ]; then
+#       echo "[SKIP] $OUTPUT_FILE not found." | tee -a "$LOG_FILE"
+#       continue
+#     fi
+
+#     # echo "▶ Training Word2Vec on $INPUT_FILE with dimension $DIM..." | tee -a "$LOG_FILE"
+#     # log_time "$LOG_FILE" ../bin/word2vec -train "$INPUT_FILE" -output "$OUTPUT_FILE" \
+#     #   -cbow 1 -size "$DIM" -window 10 -negative 0 -hs 1 -sample 0 \
+#     #   -threads 20 -binary 1 -iter 3 -min-count 10
+
+#     echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
+#     log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 400000 < ../data/questions-words.txt
+
+#     echo "✔ Done: $OUTPUT_FILE"
+#     echo ""
+#   done
+# done
