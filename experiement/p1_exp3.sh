@@ -35,7 +35,7 @@ DATASET="../data/14b.txt"
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M")
 
-BASE_OUTPUT_DIR="../output/p1_exp2_${TIMESTAMP}"
+BASE_OUTPUT_DIR="../output/p1_exp3_${TIMESTAMP}"
 mkdir -p "$BASE_OUTPUT_DIR"
 
 REF_OUTPUT_DIR=$1
@@ -66,7 +66,7 @@ for combo in "${combinations[@]}"; do
   #   -threads 20 -binary 1 -iter "$ITER" -min-count 10
 
   echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
-  log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 0 < ../data/questions-words.txt
+  log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" < ../data/questions-words.txt
 
   echo "✔ Done: $OUTPUT_FILE"
   echo ""
