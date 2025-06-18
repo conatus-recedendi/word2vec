@@ -59,7 +59,7 @@ for combo in "${combinations[@]}"; do
     CBOW_FLAG=1
   elif [ "$MODEL" == "skip-gram" ]; then
     CBOW_FLAG=0
-  end
+  fi
 
   # if $ns is greater than 0, HS_FLAG = 0 or 1
   if [ "$NS" -gt 0 ]; then
