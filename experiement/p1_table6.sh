@@ -28,8 +28,8 @@ bash ../scripts/split-dataset.sh "$DATASET" 6B
 
 # 조합 리스트 (형식: "iter dim size model")
 combinations=(
-  "3 1000 6B cbow"
-  "3 1000 6B skip-gram"
+  "1 1000 6B cbow"
+  "1 1000 6B skip-gram"
 )
 
 # 반복 실행

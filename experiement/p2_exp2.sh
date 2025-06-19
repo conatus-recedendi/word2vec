@@ -28,9 +28,9 @@ bash ../scripts/split-dataset.sh "$DATASET" 1B
 
 # 조합 리스트 (형식: "iter dim size model ns subsample")
 combinations=(
-  "3 300 1B skip-gram 5 0"
-  "3 300 1B skip-gram 15 0"
-  "3 300 1B skip-gram 0 0"
+  "1 300 1B skip-gram 5 0"
+  "1 300 1B skip-gram 15 0"
+  "1 300 1B skip-gram 0 0"
   # "3 300 1B skip-gram 5 1e-5"
   # "3 300 1B skip-gram 15 1e-5"
   # "3 300 1B skip-gram 0 1e-5"
