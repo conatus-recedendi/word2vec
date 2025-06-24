@@ -1,13 +1,15 @@
 import argparse
 import sys
 
+from collections import Counter
+
 data_dir = "../data"
 
 
 def show_info(file_name):
     # show corpus/vocab/
     word_cnt = 0
-    word_set = set()
+    word_counter = Counter()  # Counter to keep track of word frequencies
     # dataset size, vocab size, corpus size
     with open(f"{data_dir}/{file_name}", "r", encoding="utf-8") as f:
         buf = ""
@@ -38,13 +40,20 @@ def show_info(file_name):
             words = words.split()
             for word in words:
                 if word.strip():
-                    word_set.add(word)
+                    word_counter[word] += 1
 
                     word_cnt += 1
 
     print(f"Dataset file: {data_dir}/{file_name}")
     print(f"Total words in dataset: {word_cnt}")
-    print(f"Unique words in dataset: {len(word_set)}")
+    print(f"Unique words in dataset: {len(word_counter)}")
+
+    print("\nTop 100 most frequent words:")
+    print(f"{'Rank':<5}{'Word':<15}{'Count':<10}{'Percent':<10}")
+    print("-" * 45)
+    for i, (word, count) in enumerate(word_counter.most_common(100), 1):
+        percent = count / word_cnt * 100
+        print(f"{i:<5}{word:<15}{count:<10}{percent:.4f}%")
 
 
 if __name__ == "__main__":
