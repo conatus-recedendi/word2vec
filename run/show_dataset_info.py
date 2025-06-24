@@ -49,18 +49,18 @@ def show_info(file_name):
     print(f"Unique words in dataset: {len(word_counter)}")
     # delete by word length lower than or equal [5, 10]
     min_count_5 = Counter(
-        {word: count for word, count in word_counter.items() if len(word) > 5}
+        {word: count for word, count in word_counter.items() if count > 5}
     )
     min_count_10 = Counter(
-        {word: count for word, count in word_counter.items() if len(word) > 10}
+        {word: count for word, count in word_counter.items() if count > 10}
     )
 
     min_count_25 = Counter(
-        {word: count for word, count in word_counter.items() if len(word) > 25}
+        {word: count for word, count in word_counter.items() if count > 25}
     )
 
     min_count_100 = Counter(
-        {word: count for word, count in word_counter.items() if len(word) > 100}
+        {word: count for word, count in word_counter.items() if count > 100}
     )
 
     print(f"Unique words with length > 5: {len(min_count_5)}")
