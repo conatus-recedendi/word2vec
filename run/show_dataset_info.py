@@ -28,7 +28,7 @@ def show_info(file_name):
             percent = f.tell() / file_size * 100
             sys.stdout.write(
                 f"\rProcessing {file_name}: {percent:.2f}% complete, "
-                f"Total words: {word_cnt}, Unique words: {len(word_set)}"
+                f"Total words: {word_cnt}, Unique words: {len(word_counter)}"
             )
             sys.stdout.flush()
 
