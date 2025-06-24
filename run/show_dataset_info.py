@@ -55,8 +55,18 @@ def show_info(file_name):
         {word: count for word, count in word_counter.items() if len(word) > 10}
     )
 
+    min_count_25 = Counter(
+        {word: count for word, count in word_counter.items() if len(word) > 25}
+    )
+
+    min_count_100 = Counter(
+        {word: count for word, count in word_counter.items() if len(word) > 100}
+    )
+
     print(f"Unique words with length > 5: {len(min_count_5)}")
     print(f"Unique words with length > 10: {len(min_count_10)}")
+    print(f"Unique words with length > 25: {len(min_count_25)}")
+    print(f"Unique words with length > 100: {len(min_count_100)}")
 
     print("\nTop 100 most frequent words:")
     print(f"{'Rank':<5}{'Word':<15}{'Count':<10}{'Percent':<10}")
