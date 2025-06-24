@@ -47,6 +47,16 @@ def show_info(file_name):
     print(f"Dataset file: {data_dir}/{file_name}")
     print(f"Total words in dataset: {word_cnt}")
     print(f"Unique words in dataset: {len(word_counter)}")
+    # delete by word length lower than or equal [5, 10]
+    min_count_5 = Counter(
+        {word: count for word, count in word_counter.items() if len(word) > 5}
+    )
+    min_count_10 = Counter(
+        {word: count for word, count in word_counter.items() if len(word) > 10}
+    )
+
+    print(f"Unique words with length > 5: {len(min_count_5)}")
+    print(f"Unique words with length > 10: {len(min_count_10)}")
 
     print("\nTop 100 most frequent words:")
     print(f"{'Rank':<5}{'Word':<15}{'Count':<10}{'Percent':<10}")
