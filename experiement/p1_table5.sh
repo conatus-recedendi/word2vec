@@ -55,12 +55,14 @@ for combo in "${combinations[@]}"; do
   
   if [ "$MODEL" == "cbow" ]; then
     CBOW_FLAG=1
+    WINDOW=4
   else
     CBOW_FLAG=0
+    WINDOW=10
   fi
 
   log_time "$LOG_FILE" ../bin/word2vec -train "$INPUT_FILE" -output "$OUTPUT_FILE" \
-    -cbow "$CBOW_FLAG" -size "$DIM" -window 10 -negative 0 -hs 1 -sample 0 \
+    -cbow "$CBOW_FLAG" -size "$DIM" -window "$WINDOW" -negative 0 -hs 1 -sample 0 \
     -threads 20 -binary 1 -iter "$ITER" -min-count 10
 
   echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
