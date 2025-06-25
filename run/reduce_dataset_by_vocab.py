@@ -111,3 +111,7 @@ def main():
                         word_cnt += 1
                         if word in reduced_words:
                             out_f.write(word + " ")
+
+
+if __name__ == "__main__":
+    main()

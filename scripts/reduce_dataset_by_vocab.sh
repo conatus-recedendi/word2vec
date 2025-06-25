@@ -15,4 +15,4 @@ log_time() {
 
 LOG_FILE="../output/reduce_dataset_by_vocab_$(date +"%Y%m%d_%H%M").log"
 
-log_time $LOG_FILE python ../run/reduce_dataset_by_vocab.py --input "$1" --output "$2" --threshold "$3"
+log_time $LOG_FILE python ../run/reduce_dataset_by_vocab.py --file "$1" --output "$2" --threshold "$3"
