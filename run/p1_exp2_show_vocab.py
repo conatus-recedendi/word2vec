@@ -57,7 +57,10 @@ def get_top_vocab(file_path, top_k=30000):
                     word_counter[word] += 1
 
                     word_cnt += 1
-    return set(word for word, _ in word_counter.most_common(top_k))
+
+    if top_k > 0:
+        return set(word for word, _ in word_counter.most_common(top_k))
+    return set(word for word, _ in word_counter.items() if word.strip())
 
 
 def main():
@@ -69,6 +72,12 @@ def main():
     )
     parser.add_argument(
         "--file2", type=str, required=True, help="Path to the second file"
+    )
+    parser.add_argument(
+        "--file_base",
+        type=str,
+        default=None,
+        help="Path to the base file for filtering vocabularies",
     )
     parser.add_argument(
         "--topk",
@@ -84,11 +93,17 @@ def main():
     only_in_file1 = vocab1 - vocab2
     only_in_file2 = vocab2 - vocab1
 
+    if args.file_base:
+        vocab_base = get_top_vocab(args.file_base, 0)
+
+        only_in_file1 = only_in_file1 & vocab_base
+        only_in_file2 = only_in_file2 & vocab_base
+
     print(f"▶ {args.file1}에만 있는 단어 수: {len(only_in_file1)}")
-    print(f"  예시: {list(only_in_file1)[:10]}")
+    print(f"  예시: {list(only_in_file1)}")
     print()
     print(f"▶ {args.file2}에만 있는 단어 수: {len(only_in_file2)}")
-    print(f"  예시: {list(only_in_file2)[:10]}")
+    print(f"  예시: {list(only_in_file2)}")
 
 
 if __name__ == "__main__":
