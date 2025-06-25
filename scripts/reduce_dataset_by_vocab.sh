@@ -1,6 +1,7 @@
 
-
-# bash reduce_dataset_by_vocab.sh ../data/14b_783M.txt ../data/14b_783M_reduced_1M.txt 100000
+# for paper 1 dataset!
+# bash reduce_dataset_by_vocab.sh ../data/14b_783M.txt ../data/14b_783M_reduced_1M.txt 1000000
+# bash reduce_dataset_by_vocab.sh ../data/14b_1.6B.txt ../data/14b_1.6B_reduced_1M.txt 1000000
 log_time() {
         logfile="$1"
         shift
