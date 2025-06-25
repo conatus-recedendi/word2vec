@@ -2,11 +2,11 @@
 
 # 사용 예:
 # total accuracy 
-# bash ./p1_table2_parse_log.sh ../output/p1_table2_20250612_0655 --keys size,dim --pattern "Total accuracy:" 
+# bash ./p1_table2_parse_log.sh ../output/p1_table2_20250624_0657 --keys size,dim --pattern "Total accuracy:" 
 # questions seen / total
-# bash ./p1_table2_parse_log.sh ../output/p1_table2_20250612_0655 --keys size,dim  --pattern "Questions seen / total:"
+# bash ./p1_table2_parse_log.sh ../output/p1_table2_20250624_0657 --keys size,dim  --pattern "Questions seen / total:"
 # time elapsed
-# bash ./p1_table2_parse_log.sh ../output/p1_table2_20250612_0655 --keys size,dim --pattern "Time elapsed:" --append
+# bash ./p1_table2_parse_log.sh ../output/p1_table2_20250624_0657p1_table2_20250612_0655 --keys size,dim --pattern "Time elapsed:" --append
 
 
 # caution! only for p1_table2 logs
