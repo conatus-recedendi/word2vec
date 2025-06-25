@@ -1,12 +1,63 @@
 import argparse
 from collections import Counter
+import sys
+
+
+def read_words_from_stream(
+    f,
+):
+    buf = ""
+    while True:
+        chunk = f.read(4096)
+        if not chunk:
+            break
+        chunk = buf + chunk
+
+        buf = chunk[chunk.rfind(" ") + 1 :]  # keep the last word in the buffer
+        chunk = chunk[: -len(buf)]
+
+        yield chunk  # output words
+
+    if buf.strip():
+        yield buf.strip()  # yield any remaining words in the buffer
 
 
 def get_top_vocab(file_path, top_k=30000):
+    word_cnt
+    word_counter = Counter()  # Counter to keep track of word frequencies
     with open(file_path, "r", encoding="utf-8") as f:
-        words = f.read().split()
-    counter = Counter(words)
-    return set(word for word, _ in counter.most_common(top_k))
+        buf = ""
+        # what file size
+        file_size = f.seek(0, 2)
+
+        f.seek(0)  # reset file pointer to the beginning
+        while True:
+
+            words = f.read(4096)  # 4KB
+            # if read 14b.txt(93Gb), it will take  93 * 1024 * 1024 / 4096 = 24,576 iterations
+            if not words:
+                break
+
+            # show percentages
+            percent = f.tell() / file_size * 100
+            sys.stdout.write(
+                f"\rProcessing {file_path}: {percent:.2f}% complete, "
+                f"Total words: {word_cnt}, Unique words: {len(word_counter)}"
+            )
+            sys.stdout.flush()
+
+            words = buf + words
+
+            buf = words[words.rfind(" ") + 1 :]  # keep the last word in the buffer
+            words = words[: -len(buf)]
+
+            words = words.split()
+            for word in words:
+                if word.strip():
+                    word_counter[word] += 1
+
+                    word_cnt += 1
+    return set(word for word, _ in word_counter.most_common(top_k))
 
 
 def main():
