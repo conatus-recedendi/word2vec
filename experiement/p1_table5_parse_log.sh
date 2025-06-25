@@ -8,8 +8,8 @@
 # time elapsed
 # bash ./p1_table5_parse_log.sh ../output/p1_table5_20250613_0828 --keys model,size,dim,iter --pattern "Time elapsed:" --append
 
-bash ./p1_table5_parse_log.sh ../output/p2_table1_20250619_0456 --keys model,size,dim,iter,ns,sampling --pattern "Total accuracy:" --append
-bash ./p1_table5_parse_log.sh ../output/p2_table1_20250619_0456 --keys model,size,dim,iter,ns,sampling --pattern "Time elapsed:" --append
+# bash ./p1_table5_parse_log.sh ../output/p2_table1_20250620_0201 --keys model,size,dim,iter,ns,sampling --pattern "Total accuracy:" --append
+# bash ./p1_table5_parse_log.sh ../output/p2_table1_20250620_0201 --keys model,size,dim,iter,ns,sampling --pattern "Time elapsed:" --append
 # caution! only for p1_table2 logs
 
 KEYS=()
