@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# bash ./download-data.sh --output data.txt news2012 news2013 1blm umbc enwiki
+
 # 기본 출력 파일은 data.txt
 OUTPUT_FILE="data.txt"
 DATASETS=()
@@ -75,7 +77,7 @@ process_umbc() {
     fi
     tar -zxvf umbc_webbase_corpus.tar.gz webbase_all/*.txt
   fi
-  for i in webbase_all/*; do
+  for i in webbase_all/*.txt; do
     append_output "$i"
   done
 }
