@@ -23,7 +23,7 @@ def read_words_from_stream(
 
 
 def get_top_vocab(file_path, top_k=30000):
-    word_cnt
+    word_cnt = 0
     word_counter = Counter()  # Counter to keep track of word frequencies
     with open(file_path, "r", encoding="utf-8") as f:
         buf = ""
