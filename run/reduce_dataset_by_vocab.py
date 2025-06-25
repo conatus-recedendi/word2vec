@@ -75,8 +75,9 @@ def main():
             break
 
     # write files by reduced vocab
-
+    word_cnt = 0
     with open(output_path, "w", encoding="utf-8") as out_f:
+        buf_write = ""
         with open(f"{file_path}", "r", encoding="utf-8") as f:
             buf = ""
             # what file size
@@ -105,12 +106,12 @@ def main():
 
                 words = words.split()
                 for word in words:
-                    if word.strip():
-                        word_counter[word] += 1
-
+                    if word in reduced_words:
+                        buf_write += word + " "
                         word_cnt += 1
-                        if word in reduced_words:
-                            out_f.write(word + " ")
+                if len(buf_write) >= 4096 * 32:
+                    out_f.write(buf_write)
+                    buf_write = ""
 
 
 if __name__ == "__main__":

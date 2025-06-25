@@ -1,6 +1,6 @@
 
 
-# ./reduce_dataset_by_vocab.sh <input_file> <output_file> <threshold>
+# bash reduce_dataset_by_vocab.sh ../data/14b_783M.txt ../data/14b_783M_reduced_1M.txt 100000
 log_time() {
         logfile="$1"
         shift
