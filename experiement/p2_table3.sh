@@ -5,7 +5,7 @@
 
 # Manually set parameters
 GRAM=2
-PHRASE_THRESHOLD=100
+PHRASE_THRESHOLD=200
 echo "Running with GRAM=$GRAM, PHRASE_THRESHOLD=$PHRASE_THRESHOLD"
 echo "Before running this script, make sure you have created the phrase dataset using create-phrase.sh."
 read -p "Press [Enter] to continue or Ctrl+C to exit..."
@@ -52,7 +52,7 @@ combinations=(
 for combo in "${combinations[@]}"; do
   read ITER DIM SIZE MODEL NS SUBSAMPLE <<< "$combo"
   
-  INPUT_FILE="../data/data_phrase_gram=${GRAM}_th=${PHRASE_THRESHOLD}.txt"
+  INPUT_FILE="../data/data_phrase_gram=${GRAM}_th=${PHRASE_THRESHOLD}_size=1B.txt"
   if [ ! -f "$INPUT_FILE" ]; then
     echo "[SKIP] $INPUT_FILE not found."
     continue
