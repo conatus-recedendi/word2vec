@@ -1,7 +1,7 @@
 import sys
 from collections import defaultdict, Counter
 
-vocab = set()
+vocab = Counter()  # Counter to keep track of word frequencies
 vocab_cnt = 0
 
 
@@ -45,7 +45,7 @@ def fill_vocab(file_path):
 
             for word in words:
                 if word.strip():
-                    vocab.add(word)
+                    vocab[word] += 1
                     vocab_cnt += 1
 
 
@@ -85,7 +85,7 @@ def parse_analogy_log(file_path):
         counter = Counter(preds)
         for i, (word, freq) in enumerate(counter.most_common(10), 1):
             print(
-                f"{i}. {word} ({freq}) / {vocab.count(word) if word in vocab else 0} / {vocab.count(word) / vocab_cnt * 100:.2f}%)"
+                f"{i}. {word} ({freq}) / {vocab[word] if word in vocab else 0} / {vocab[word] / vocab_cnt * 100:.2f}%)"
             )
         print()
 
