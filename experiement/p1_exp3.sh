@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# bash ./p1_exp3 ../output/p1_table5_20250613_0828
+# bash ./p1_exp3 ../output/p1_table5_20250627_0000
 
 # p1_table5 에서 "Acccuracy is reported on the full semantic-syntatic data set"이라고 해서 threshold 완전 제거
 #!/bin/bash
