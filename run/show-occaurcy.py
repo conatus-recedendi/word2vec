@@ -44,8 +44,9 @@ def fill_vocab(file_path):
             words = chunk.split()
 
             for word in words:
-                if word.strip():
-                    vocab[word] += 1
+                word = word.strip().upper()
+
+                vocab[word] += 1
 
 
 def parse_analogy_log(file_path):
