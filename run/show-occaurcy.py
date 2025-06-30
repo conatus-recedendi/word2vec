@@ -1,4 +1,25 @@
+import sys
 from collections import defaultdict, Counter
+
+vocab = set()
+vocab_cnt = 0
+
+
+def fill_vocab(file_path):
+    progress = 0
+    with open(file_path, "r", encoding="utf-8") as f:
+        for line in f:
+            # Show progress
+            progress += len(line)
+            sys.stdout.write(
+                f"\rProcessing {file_path}: {progress / 1024 / 1024:.2f} MB processed"
+            )
+            sys.stdout.flush()
+            words = line.strip().split()
+            for word in words:
+                if word.strip():
+                    vocab.add(word)
+                    vocab_cnt += 1
 
 
 def parse_analogy_log(file_path):
@@ -36,9 +57,12 @@ def parse_analogy_log(file_path):
         print(f"Task: {task}")
         counter = Counter(preds)
         for i, (word, freq) in enumerate(counter.most_common(10), 1):
-            print(f"{i}. {word} ({freq})")
+            print(
+                f"{i}. {word} ({freq}) / {vocab.count(word) if word in vocab else 0} / {vocab.count(word) / vocab_cnt * 100:.2f}%)"
+            )
         print()
 
 
+fill_vocab("../data/14b_783M.txt")  # Fill the vocab set with words from the dataset
 # 사용 예시
 parse_analogy_log("../output/p1_exp5_20250630_0118/cbow_783M_300d_iter3.log")
