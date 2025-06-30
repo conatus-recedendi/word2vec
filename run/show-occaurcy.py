@@ -85,7 +85,7 @@ def parse_analogy_log(file_path):
         counter = Counter(preds)
         for i, (word, freq) in enumerate(counter.most_common(10), 1):
             print(
-                f"{i}. {word} ({freq}) / {vocab[word] if word in vocab else 0} / {vocab[word] / vocab_cnt * 100:.2f}%)"
+                f"{i}. {word} ({freq}) / {vocab[word] if word in vocab else 0} / {vocab[word] / vocab_cnt * 100:.8f}%)"
             )
         print()
 
