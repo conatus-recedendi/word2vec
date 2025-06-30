@@ -2,15 +2,18 @@
 
 # 사용 예:
 # total accuracy 
-# bash ./p1_table5_parse_log.sh ../output/p1_table5_20250613_0828 --keys model,size,dim,iter --pattern "Total accuracy:" --append
+# bash ./p1_table5_parse_log.sh ../output/p1_table5_20250627_0000 --keys model,size,dim,iter --pattern "Total accuracy:" --append
 # questions seen / total
-# bash ./p1_table5_parse_log.sh ../output/p1_table5_20250613_0828 --keys model,size,dim,iter  --pattern "Questions seen / total:"
+# bash ./p1_table5_parse_log.sh ../output/p1_table5_20250627_0000 --keys model,size,dim,iter  --pattern "Questions seen / total:"
 # time elapsed
-# bash ./p1_table5_parse_log.sh ../output/p1_table5_20250613_0828 --keys model,size,dim,iter --pattern "Time elapsed:" --append
+# bash ./p1_table5_parse_log.sh ../output/p1_table5_20250627_0000 --keys model,size,dim,iter --pattern "Time elapsed:" --append
 
 # bash ./p1_table5_parse_log.sh ../output/p2_table1_20250620_0201 --keys model,size,dim,iter,ns,sampling --pattern "Total accuracy:" --append
 # bash ./p1_table5_parse_log.sh ../output/p2_table1_20250620_0201 --keys model,size,dim,iter,ns,sampling --pattern "Time elapsed:" --append
+# bash ./p1_table5_parse_log.sh ../output/p1_table3_20250624_0703 --keys model,size,dim --pattern "Average accuracy:" --append
 # caution! only for p1_table2 logs
+
+# p1_table5_20250627_0000
 
 KEYS=()
 PATTERN=""
