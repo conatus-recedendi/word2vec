@@ -35,7 +35,7 @@ DATASET="../data/14b.txt"
 
 TIMESTAMP=$(date +"%Y%m%d_%H%M")
 
-BASE_OUTPUT_DIR="../output/p1_exp3_${TIMESTAMP}"
+BASE_OUTPUT_DIR="../output/p1_exp5_${TIMESTAMP}"
 mkdir -p "$BASE_OUTPUT_DIR"
 
 REF_OUTPUT_DIR=$1
