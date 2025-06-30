@@ -6,16 +6,19 @@ vocab_cnt = 0
 
 
 def fill_vocab(file_path):
+    global vocab_cnt
+    global vocab
     progress = 0
     with open(file_path, "r", encoding="utf-8") as f:
         for line in f:
             # Show progress
+
+            words = line.strip().split()
             progress += len(line)
             sys.stdout.write(
                 f"\rProcessing {file_path}: {progress / 1024 / 1024:.2f} MB processed"
             )
             sys.stdout.flush()
-            words = line.strip().split()
             for word in words:
                 if word.strip():
                     vocab.add(word)
