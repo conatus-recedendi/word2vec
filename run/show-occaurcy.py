@@ -8,21 +8,21 @@ def parse_analogy_log(file_path):
     with open(file_path, "r") as f:
         lines = f.readlines()
 
-    for i in range(len(lines)):
-        line = lines[i].strip()
+        for i in range(len(lines)):
+            line = lines[i].strip()
 
-        # Task section starts
-        if line.startswith(":"):
-            current_task = line[1:].strip()
-            continue
+            # Task section starts
+            if line.startswith(":"):
+                current_task = line[1:].strip()
+                continue
 
-        if "[Wrong]" in line:
-            parts = line.split("Predicted: ")
-            if len(parts) >= 2:
-                predicted_part = parts[1].strip()
-                predicted_word = predicted_part.split()[0]  # Only the word
-                if current_task:
-                    task_errors[current_task].append(predicted_word)
+            if "[Wrong]" in line:
+                parts = line.split("Predicted: ")
+                if len(parts) >= 2:
+                    predicted_part = parts[1].strip()
+                    predicted_word = predicted_part.split()[0]  # Only the word
+                    if current_task:
+                        task_errors[current_task].append(predicted_word)
 
     # Display
     for task, preds in task_errors.items():
