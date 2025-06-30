@@ -5,20 +5,44 @@ vocab = set()
 vocab_cnt = 0
 
 
+def read_words_from_stream(
+    f,
+):
+    buf = ""
+    while True:
+        chunk = f.read(4096)
+        if not chunk:
+            break
+        chunk = buf + chunk
+
+        buf = chunk[chunk.rfind(" ") + 1 :]  # keep the last word in the buffer
+        chunk = chunk[: -len(buf)]
+
+        yield chunk  # output words
+
+    if buf.strip():
+        yield buf.strip()  # yield any remaining words in the buffer
+
+
 def fill_vocab(file_path):
     global vocab_cnt
     global vocab
     progress = 0
     with open(file_path, "r", encoding="utf-8") as f:
-        for line in f:
-            # Show progress
+        read_words_from_stream(f)
+        while True:
+            chunk = f.read(4096)
+            if not chunk:
+                break
 
-            words = line.strip().split()
-            progress += len(line)
+            # Show progress
+            progress += len(chunk)
             sys.stdout.write(
                 f"\rProcessing {file_path}: {progress / 1024 / 1024:.2f} MB processed"
             )
             sys.stdout.flush()
+            words = chunk.split()
+
             for word in words:
                 if word.strip():
                     vocab.add(word)
