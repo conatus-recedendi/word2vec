@@ -134,9 +134,9 @@ int main(int argc, char **argv)
       }
     }
 
+    printf("Q: %s - %s + %s = ?\n", st1, st2, st3);
+    printf("GT: %s, Predicted: %s [%s]\n", st4, bestw[0], strcmp(st4, bestw[0]) == 0 ? "Correct" : "Wrong");
     if (!strcmp(st4, bestw[0])) {
-      printf("Q: %s - %s + %s = ?\n", st1, st2, st3);
-      printf("GT: %s, Predicted: %s [%s]\n\n", st4, bestw[0], strcmp(st4, bestw[0]) == 0 ? "Correct" : "Wrong");
       CCN++;
       CACN++;
       if (QID <= 5) SEAC++; else SYAC++;
