@@ -12,7 +12,14 @@ def parse_analogy_log(file_path):
             line = lines[i].strip()
 
             # Task section starts
-            if line.startswith(":"):
+            if (
+                line.startswith("gram")
+                or line.startswith("capital-common-countries")
+                or line.startswith("capital-world")
+                or line.startswith("currency")
+                or line.startswith("city-in-state")
+                or line.startswith("family")
+            ):
                 current_task = line[1:].strip()
                 continue
 
