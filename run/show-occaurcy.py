@@ -34,4 +34,4 @@ def parse_analogy_log(file_path):
 
 
 # 사용 예시
-parse_analogy_log("../data/p1_exp5_20250630_0118/cbow_783M_300d_iter3.log")
+parse_analogy_log("../output/p1_exp5_20250630_0118/cbow_783M_300d_iter3.log")
