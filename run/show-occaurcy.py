@@ -31,7 +31,7 @@ def fill_vocab(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
         read_words_from_stream(f)
         while True:
-            chunk = f.read(4096)
+            chunk = f.read(4 * 1024 * 1024)
             if not chunk:
                 break
 
