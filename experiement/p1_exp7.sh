@@ -30,11 +30,14 @@ bash ../scripts/split-dataset.sh "$DATASET" 783M 1.6B
 combinations=(
   # "3 300 783M cbow"
   "2 300 783M skip-gram"
+  "4 300 783M skip-gram"
+  "5 300 783M skip-gram"
+  "6 300 783M skip-gram"
   # "1 300 783M cbow"
   # "1 300 1.6B cbow"
   # "1 600 783M cbow"
   # "1 300 783M skip-gram"
-  "1 300 1.6B skip-gram"
+  # "1 300 1.6B skip-gram"
   # "1 600 783M skip-gram"
 )
 
