@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ./p1-exp6.sh
+# ./p1-exp7.sh
 
 # 로그 함수 정의
 log_time() {
@@ -20,7 +20,7 @@ log_time() {
 # 공통 설정
 DATASET="../data/14b_shuffled.txt"
 TIMESTAMP=$(date +"%Y%m%d_%H%M")
-BASE_OUTPUT_DIR="../output/p1_exp6_${TIMESTAMP}"
+BASE_OUTPUT_DIR="../output/p1_exp7_${TIMESTAMP}"
 mkdir -p "$BASE_OUTPUT_DIR"
 
 # 데이터셋 분할
@@ -29,10 +29,10 @@ bash ../scripts/split-dataset.sh "$DATASET" 783M 1.6B
 # 조합 리스트 (형식: "iter dim size model")
 combinations=(
   # "3 300 783M cbow"
-  "2 300 783M skip-gram"
-  "4 300 783M skip-gram"
-  "5 300 783M skip-gram"
-  "6 300 783M skip-gram"
+  "1 300 783M skip-gram 2"
+  "1 300 783M skip-gram 3"
+  "1 300 783M skip-gram 5"
+  "1 300 783M skip-gram 6"
   # "1 300 783M cbow"
   # "1 300 1.6B cbow"
   # "1 600 783M cbow"
@@ -43,7 +43,7 @@ combinations=(
 
 # 반복 실행
 for combo in "${combinations[@]}"; do
-  read ITER DIM SIZE MODEL <<< "$combo"
+  read ITER DIM SIZE MODEL WS <<< "$combo"
   
   INPUT_FILE="../data/14b_${SIZE}.txt"
   if [ ! -f "$INPUT_FILE" ]; then
@@ -51,14 +51,14 @@ for combo in "${combinations[@]}"; do
     continue
   fi
 
-  OUTPUT_FILE="${BASE_OUTPUT_DIR}/${MODEL}_${SIZE}_${DIM}d_iter${ITER}.bin"
-  LOG_FILE="${BASE_OUTPUT_DIR}/${MODEL}_${SIZE}_${DIM}d_iter${ITER}.log"
+  OUTPUT_FILE="${BASE_OUTPUT_DIR}/${MODEL}_${SIZE}_${DIM}d_iter${ITER}_ws${WS}.bin"
+  LOG_FILE="${BASE_OUTPUT_DIR}/${MODEL}_${SIZE}_${DIM}d_iter${ITER}_ws${WS}.log"
   
-  echo "▶ Training Word2Vec ($MODEL) on $INPUT_FILE with dim=$DIM, iter=$ITER..." | tee -a "$LOG_FILE"
+  echo "▶ Training Word2Vec ($MODEL) on $INPUT_FILE with dim=$DIM, iter=$ITER, window_size=$WS..." | tee -a "$LOG_FILE"
   
   if [ "$MODEL" == "cbow" ]; then
     CBOW_FLAG=1
-    WINDOW=4
+    WINDOW=$WS
   else
     CBOW_FLAG=0
     WINDOW=10
