@@ -29,10 +29,10 @@ bash ../scripts/split-dataset.sh "$DATASET" 783M 1.6B
 # 조합 리스트 (형식: "iter dim size model")
 combinations=(
   # "3 300 783M cbow"
-  "1 300 783M skip-gram 2"
-  "1 300 783M skip-gram 3"
-  "1 300 783M skip-gram 5"
-  "1 300 783M skip-gram 6"
+  "1 300 783M cbow 2"
+  "1 300 783M cbow 3"
+  "1 300 783M cbow 5"
+  "1 300 783M cbow 6"
   # "1 300 783M cbow"
   # "1 300 1.6B cbow"
   # "1 600 783M cbow"
