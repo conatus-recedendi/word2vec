@@ -4,8 +4,8 @@
 
 
 # Manually set parameters
-GRAM=2
-PHRASE_THRESHOLD=200
+GRAM=4
+PHRASE_THRESHOLD=50
 echo "Running with GRAM=$GRAM, PHRASE_THRESHOLD=$PHRASE_THRESHOLD"
 echo "Before running this script, make sure you have created the phrase dataset using create-phrase.sh."
 read -p "Press [Enter] to continue or Ctrl+C to exit..."
