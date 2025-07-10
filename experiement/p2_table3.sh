@@ -77,7 +77,7 @@ for combo in "${combinations[@]}"; do
   fi
 
   log_time "$LOG_FILE" ../bin/word2vec -train "$INPUT_FILE" -output "$OUTPUT_FILE" \
-    -cbow "$CBOW_FLAG" -size "$DIM" -window 8 -negative "$NS" -hs "$HS_FLAG" -sample "$SUBSAMPLE" \
+    -cbow "$CBOW_FLAG" -size "$DIM" -window 16 -negative "$NS" -hs "$HS_FLAG" -sample "$SUBSAMPLE" \
     -threads 20 -binary 1 -iter "$ITER" -min-count 5
 
   echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
