@@ -41,11 +41,11 @@ mkdir -p "$BASE_OUTPUT_DIR"
 # 조합 리스트 (형식: "iter dim size model")
 combinations=(
   "1 300 1B skip-gram 5 0"
-  "1 300 1B skip-gram 15 0"
-  "1 300 1B skip-gram 0 0"
-  "1 300 1B skip-gram 5 1e-5"
-  "1 300 1B skip-gram 15 1e-5"
-  "1 300 1B skip-gram 0 1e-5"
+  # "1 300 1B skip-gram 15 0"
+  # "1 300 1B skip-gram 0 0"
+  # "1 300 1B skip-gram 5 1e-5"
+  # "1 300 1B skip-gram 15 1e-5"
+  # "1 300 1B skip-gram 0 1e-5"
 )
 
 # 반복 실행
@@ -77,7 +77,7 @@ for combo in "${combinations[@]}"; do
   fi
 
   log_time "$LOG_FILE" ../bin/word2vec -train "$INPUT_FILE" -output "$OUTPUT_FILE" \
-    -cbow "$CBOW_FLAG" -size "$DIM" -window 5 -negative "$NS" -hs "$HS_FLAG" -sample "$SUBSAMPLE" \
+    -cbow "$CBOW_FLAG" -size "$DIM" -window 8 -negative "$NS" -hs "$HS_FLAG" -sample "$SUBSAMPLE" \
     -threads 20 -binary 1 -iter "$ITER" -min-count 5
 
   echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
