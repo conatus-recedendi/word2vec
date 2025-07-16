@@ -77,11 +77,11 @@ for combo in "${combinations[@]}"; do
   fi
 
   log_time "$LOG_FILE" ../bin/word2vec -train "$INPUT_FILE" -output "$OUTPUT_FILE" \
-    -cbow "$CBOW_FLAG" -size "$DIM" -window 16 -negative "$NS" -hs "$HS_FLAG" -sample "$SUBSAMPLE" \
+    -cbow "$CBOW_FLAG" -size "$DIM" -window 10 -negative "$NS" -hs "$HS_FLAG" -sample "$SUBSAMPLE" \
     -threads 20 -binary 1 -iter "$ITER" -min-count 5
 
   echo "▶ Evaluating accuracy for $OUTPUT_FILE" | tee -a "$LOG_FILE"
-  log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 400000 < ../data/questions-words.txt 
+  # log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 400000 < ../data/questions-words.txt 
   log_time "$LOG_FILE" ../bin/compute-accuracy "$OUTPUT_FILE" 1000000 < ../data/questions-phrases.txt 
 
   echo "✔ Done: $OUTPUT_FILE"
